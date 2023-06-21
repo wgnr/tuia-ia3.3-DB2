@@ -1,0 +1,6 @@
+fastAPI
+uvicorn[standard]
+pandas
+matplotlib
+pyarrow
+requests
