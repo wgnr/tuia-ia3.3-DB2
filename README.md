@@ -1,9 +1,9 @@
 # Universidad Nacional de Rosario
-## Tecnicatura Universitaria en Inteligencia Artifical
+## Tecnicatura Universitaria en Inteligencia Artificial
 ### IA3.5 Redes de Datos
 ## Trabajo Práctico Final
 
-Trabajo practico de Redes de Datos de la TUIA. Consiste en un servidor REST api hecho en Python usando el framework FastAPI y consumieda mendiante un CLI tambien hecho en Python usando Click.
+Trabajo practico de Redes de Datos de la TUIA. Consiste en un servidor REST api hecho en Python usando el framework FastAPI y consumiendo mendiante un CLI usando las librería Click.
 
 Enunciado: (IA3.5_RD_TP_enunciado.pdf)(IA3.5_RD_TP_enunciado.pdf)
 
