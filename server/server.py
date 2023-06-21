@@ -46,7 +46,8 @@ class EventNew(BaseModel):
     name: Annotated[str, Field(**field_name)]  # type: ignore
     date_start: Annotated[datetime, Field(**field_date_start)]  # type: ignore
     date_end: Annotated[datetime, Field(**field_date_end)]  # type: ignore
-    ticket: Annotated[EventType | None, Field(**field_ticket)]=None  # type: ignore
+    ticket: Annotated[EventType | None, Field(
+        **field_ticket)] = None  # type: ignore
     text: Annotated[str | None, Field(**field_text)] = None  # type: ignore
     ticket_value: Annotated[str | None,
                             Field(title="Ticket cost", description="Ticket cost. It can be 0.")] = None
@@ -155,7 +156,7 @@ def create_event(new_event: Annotated[EventNew,
          description="Get one event by its id")
 def get_event(event_id: Annotated[int,
                                   Path(title="Event's id", description="Event's id")]):
-    selection=df[df.id == event_id]
+    selection = df[df.id == event_id]
     if not len(selection):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Event not found")
 
@@ -177,7 +178,7 @@ def put_event(event_id: Annotated[int,
                               )]):
     if not len(df[df.id == event_id]):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Event not found")
-    
+
     event_dict = body.dict(exclude_unset=True)
     df.loc[df.id == event_id, event_dict.keys()] = list(  # type: ignore
         map(jsonable_encoder, event_dict.values()))
@@ -206,9 +207,10 @@ def delete_event(event_id: Annotated[int,
 def get_activity(activity_id: Annotated[int,
                                         Path(title="Activity Number",
                                              description="Find all events related to a certain activity number")]):
-    selection=df[df.actividad == activity_id]
+    selection = df[df.actividad == activity_id]
     if not len(selection):
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Activity has no events")
+        raise HTTPException(status.HTTP_404_NOT_FOUND,
+                            "Activity has no events")
     return selection.replace([np.nan], None).to_dict("records")
 
 
@@ -227,26 +229,16 @@ def search_event(search_params: Annotated[EventSearch, Body(
 
 
 if __name__ == "__main__":
-    try:
-        APP_HOST = environ["APP_HOST"] or "127.0.0.1"
-    except KeyError:
-        APP_HOST = "127.0.0.1"
-    
-    try:
-        APP_LOG_LEVEL = environ["APP_LOG_LEVEL"]
-    except KeyError:
-        APP_LOG_LEVEL = "info"
-    
-    try:
-        APP_PORT = int(environ["APP_PORT"])
-    except:
-        APP_PORT = 8000
-
-
+    from argparse import ArgumentParser
+    parser = ArgumentParser(prog='server')
+    parser.add_argument('--host', default="127.0.0.1")
+    parser.add_argument('--log_level', default="info")
+    parser.add_argument('--port', default=8000, type=int)
+    args = parser.parse_args()
 
     config = uvicorn.Config("server:app",
-                            port=APP_PORT,
-                            log_level=APP_LOG_LEVEL,
-                            host=APP_HOST)
+                            port=args.port,
+                            log_level=args.log_level,
+                            host=args.host)
     server = uvicorn.Server(config)
     server.run()
