@@ -139,9 +139,9 @@ def create_event(new_event: Annotated[EventNew,
     global df
     event_dict = new_event.dict()
     if not event_dict.get("actividad"):
-        event_dict["actividad"] = df.actividad.max()+1
+        event_dict["actividad"] = int(df.actividad.max()+1)
     if not event_dict.get("id"):
-        event_dict["id"] = df.id.max()+1
+        event_dict["id"] = int(df.id.max()+1)
 
     new_row = pd.DataFrame.from_dict(
         [jsonable_encoder(event_dict)])  # type: ignore
