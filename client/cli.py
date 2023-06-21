@@ -1,7 +1,7 @@
+from os import environ
 from datetime import datetime
 import click
 import requests
-from os import environ
 
 
 def parse_date(d: str) -> str:
@@ -106,8 +106,6 @@ def search(**kwards):
 
 
 if __name__ == '__main__':
-    try:
-        API_BASE = environ["APP_WEB_SOCKET"]
-    except KeyError:
-        API_BASE = 'http://127.0.0.1:8000'
+    global API_BASE
+    API_BASE = environ.get("SERVER_WEB_SOCKET", "http://127.0.0.1:8000")
     cli()
