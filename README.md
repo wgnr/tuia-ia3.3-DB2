@@ -39,13 +39,16 @@ source venv/Scripts/activate
 #### Server
 ```bash
 $ python server/server.py --help
-usage: server [-h] [--host HOST] [--log_level LOG_LEVEL] [--port PORT]
+usage: server [-h] [--host HOST] [--log_level LOG_LEVEL] [--port PORT] [--use_ngrok] [--ngrok_auth NGROK_AUTH]
 
 options:
   -h, --help            show this help message and exit
   --host HOST
   --log_level LOG_LEVEL
   --port PORT
+  --use_ngrok
+  --ngrok_auth NGROK_AUTH
+                        ngrok authentication token, required if --use_ngrok is set to True
 ```
 
 For running just `python server/server.py`, tt will serve the aplicattion on `http://localhost:8000`.
@@ -53,6 +56,7 @@ For running just `python server/server.py`, tt will serve the aplicattion on `ht
 
 For running in local area network `python server/server.py --host 0.0.0.0 --port 80`.
 
+To expose app with ngrok use `python server/server.py --use_ngrok --ngrok_auth <ngrok_auth_token>`
 
 Swagger Docs: `/docs`
 

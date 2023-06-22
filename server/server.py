@@ -4,10 +4,10 @@ from fastapi import FastAPI, Body, FastAPI, HTTPException, status, Path
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
 from typing import Annotated, Literal
+import sys
 import numpy as np
 import pandas as pd
 import uvicorn
-from os import environ
 
 app = FastAPI()
 
@@ -234,7 +234,23 @@ if __name__ == "__main__":
     parser.add_argument('--host', default="127.0.0.1")
     parser.add_argument('--log_level', default="info")
     parser.add_argument('--port', default=8000, type=int)
+    parser.add_argument('--use_ngrok', action='store_true')
+    parser.add_argument('--ngrok_auth', required='--use_ngrok' in sys.argv, help="ngrok authentication token, required if --use_ngrok is set to True")
     args = parser.parse_args()
+
+    if args.use_ngrok:
+        from pyngrok import ngrok, conf
+        try:
+            ngrok.set_auth_token(args.ngrok_auth)
+        except:
+            from pyngrok import conf
+            # in case the ngrok bin has to be manually downloaded
+            conf.PyngrokConfig(ngrok_path="venv/Lib/site-packages/pyngrok/bin/ngrok.exe")
+            ngrok.set_auth_token(args.ngrok_auth)
+        
+        public_url=ngrok.connect(args.port).public_url
+        text=f"ngrok tunnel {public_url} -> {args.host}:{args.port}"
+        print(text)
 
     config = uvicorn.Config("server:app",
                             port=args.port,
