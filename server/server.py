@@ -148,6 +148,25 @@ def create_event(new_event: Annotated[EventNew,
     df = pd.concat([df, new_row])
     return df.iloc[-1].replace([np.nan], None).to_dict()
 
+@app.get("/events",
+         response_model=list[Event],
+         tags=["events"],
+         summary="Get first 1000 events",
+         description="Get first 1000 events")
+def get_events():
+    selection = df.head(1000)
+    return selection.replace([np.nan], None).to_dict("records")
+
+
+@app.get("/events/free",
+         response_model=list[Event],
+         tags=["events"],
+         summary="Get top 100 free events",
+         description="Get the first 100 events where the ticket is 'gratis'")
+def get_free_events():
+    selection = df[df.ticket == 'gratis'].head(100)
+    return selection.replace([np.nan], None).to_dict("records")
+
 
 @app.get("/event/{event_id}",
          response_model=list[Event],

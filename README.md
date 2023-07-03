@@ -1,7 +1,21 @@
-# Universidad Nacional de Rosario
-## Tecnicatura Universitaria en Inteligencia Artificial
-### IA3.5 Redes de Datos
-## Trabajo Práctico Final
+<h1 align="center">
+<br>
+  <a href="https://web.fceia.unr.edu.ar/es/">
+    <img src="https://jornadasaie.org.ar/wp-content/uploads/2020/09/FCEIA-logo.png" alt="Front-End Checklist" width="530">
+  </a>
+  <br>
+    <br>
+    <a href="https://web.fceia.unr.edu.ar/es/carreras/carreras-de-pregrado/2165-tecnicatura-universitaria-en-inteligencia-artificial.html">Tecnicatura Universitaria en Inteligencia Artificial</a>
+  <br>
+</h1>
+
+---
+<h3 align="center">IA3.5 Redes de Datos</h3>
+
+
+<h3 align="center">TRABAJO PRÁCTICO FINAL</h3>
+
+---
 
 Trabajo practico de Redes de Datos de la TUIA. Consiste en un servidor REST api hecho en Python usando el framework FastAPI y consumiendo mendiante un CLI usando las librería Click.
 
@@ -11,7 +25,9 @@ DOCENTES:
 - Michelino, Juan Pablo
 - Toribio, Esteban
 
-ALUMNO: Juan Wagner
+ALUMNOS: 
+- Aguirre, Fabián
+- Wagner, Juan
 
 ---
 

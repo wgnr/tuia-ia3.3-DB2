@@ -82,6 +82,17 @@ def activity(activity_id):
     response = requests.get(f'{API_BASE}/activity/{activity_id}')
     click.echo(response.json())
 
+@cli.command()
+def free_events():
+    """Get top 100 free events"""
+    response = requests.get(f'{API_BASE}/events/free')
+    click.echo(response.json())
+
+@cli.command()
+def events():
+    """Get first 1000 events"""
+    response = requests.get(f'{API_BASE}/events')
+    click.echo(response.json())
 
 @cli.command()
 @click.option('--name', default=None, help='Event name')
