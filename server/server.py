@@ -259,16 +259,21 @@ if __name__ == "__main__":
 
     if args.use_ngrok:
         from pyngrok import ngrok, conf
-        try:
-            ngrok.set_auth_token(args.ngrok_auth)
-        except:
-            from pyngrok import conf
-            # in case the ngrok bin has to be manually downloaded
-            conf.PyngrokConfig(ngrok_path="venv/Lib/site-packages/pyngrok/bin/ngrok.exe")
-            ngrok.set_auth_token(args.ngrok_auth)
-        
+        from os import path
+        pyngrok_config = conf.get_default()
+        pyngrok_config.auth_token = args.ngrok_auth
+
+        if not path.exists(pyngrok_config.ngrok_path):
+            # Install ngrok
+            from pyngrok import installer
+            import ssl
+            myssl = ssl.create_default_context()
+            myssl.check_hostname=False
+            myssl.verify_mode=ssl.CERT_NONE
+            installer.install_ngrok(pyngrok_config.ngrok_path, context=myssl)
+
         public_url=ngrok.connect(args.port).public_url
-        text=f"ngrok tunnel {public_url} -> {args.host}:{args.port}"
+        text=f"🌎 ngrok tunnel {public_url} -> {args.host}:{args.port}"
         print(text)
 
     config = uvicorn.Config("server:app",
